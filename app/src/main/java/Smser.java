@@ -33,5 +33,8 @@ public class Smser {
             SmsDay = userDay;
         }
     }
+    public void getLeaveDay(){
+
+    }
 
 }
