@@ -1,3 +1,5 @@
+package com.sms;
+
 import java.util.Calendar;
 
 /**
@@ -9,10 +11,11 @@ public class Smser {
     private int DiscountDay;
     private int SmsYear;
     private int SmsDay;
-    private int LeaveDay;
+    private long LeaveDay;
 
     public void Smser()
     {
+        //this.SmsInTime = SmsInTime;
 
     }
     public void setSmsInTime(Calendar userSmsInTime){
@@ -21,11 +24,14 @@ public class Smser {
     public Calendar getSmsInTime(){
         return SmsInTime;
     }
+    //取得退伍時間
     public Calendar getSmsOutTime(){
-        SmsOutTime.add(Calendar.DAY_OF_YEAR,SmsYear);
+        SmsOutTime.add(Calendar.YEAR,SmsYear);
         SmsOutTime.add(Calendar.DAY_OF_YEAR,SmsDay);
+        SmsOutTime.add(Calendar.DAY_OF_YEAR,DiscountDay);
         return SmsOutTime;
     }
+    //設定役別
     public void setSmsLifeDay(int userYear,int userDay){
         if(userYear >= 0 && userDay >= 0)
         {
@@ -33,8 +39,11 @@ public class Smser {
             SmsDay = userDay;
         }
     }
-    public void getLeaveDay(){
-
+    //取得退伍天數
+    public long getLeaveDay(){
+        long aDayInMilliSecond = 60 * 60 * 24 * 1000;     //一天的毫秒數
+        LeaveDay = (SmsOutTime.getTimeInMillis() - SmsInTime.getTimeInMillis()) / aDayInMilliSecond;
+        return LeaveDay;
     }
 
 }

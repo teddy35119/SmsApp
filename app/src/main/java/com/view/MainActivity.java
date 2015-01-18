@@ -1,17 +1,23 @@
-package com.example.teddy.smsapp;
+package com.view;
 
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.RadioButton;
+import android.widget.TextView;
+
+import com.example.teddy.smsapp.R;
 
 
 public class MainActivity extends ActionBarActivity {
-
+    TextView SmsInText,SmsOutText;
+    RadioButton  NormalSms,BodySms,ResearchSms;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        InitCompoment();
     }
 
 
@@ -35,5 +41,13 @@ public class MainActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+    public void InitCompoment(){
+        SmsInText = (TextView)findViewById(R.id.InTimeText);
+        SmsOutText = (TextView)findViewById(R.id.OutTimeText);
+        NormalSms = (RadioButton) findViewById(R.id.NormalRB);
+        BodySms = (RadioButton)findViewById(R.id.BodyRB);
+        ResearchSms = (RadioButton)findViewById(R.id.ResearchRB);
+
     }
 }
