@@ -4,7 +4,7 @@
     <string name="app_name">SmsApp</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-    <string name="SmsInTimeInput">入伍日選擇</string>
+    <string name="TimeChoose">入伍日選擇</string>
     <string name="SmsInTime">入伍日</string>
     <string name="SmsOutTime">退伍日</string>
     <string name="SmsOutDay">退伍天數</string>

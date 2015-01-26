@@ -8,8 +8,8 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Button"
-        android:id="@+id/button"
+        android:text="@string/TimeChoose"
+        android:id="@+id/TimeChooseB"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
@@ -17,9 +17,10 @@
     <RadioGroup
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_below="@+id/button"
+        android:layout_below="@+id/TimeChooseB"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:id="@+id/SmsRG">
 
         <RadioButton
             android:layout_width="wrap_content"

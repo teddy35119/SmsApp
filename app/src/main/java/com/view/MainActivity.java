@@ -1,23 +1,32 @@
 package com.view;
 
+import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.example.teddy.smsapp.R;
+import com.sms.Smser;
+
+import java.util.Calendar;
 
 
 public class MainActivity extends ActionBarActivity {
-    TextView SmsInText,SmsOutText;
-    RadioButton  NormalSms,BodySms,ResearchSms;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         InitCompoment();
+        Work();
     }
 
 
@@ -42,12 +51,83 @@ public class MainActivity extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+    TextView SmsInText,SmsOutText;
+    RadioButton  NormalSms,BodySms,ResearchSms;
+    RadioGroup SmsRG;
+    Button TimeChoose;
+    int mYear,mMonth,mDay;
+    DatePickerDialog datePickerDialog;
+    public Smser FirstSms;
+
     public void InitCompoment(){
         SmsInText = (TextView)findViewById(R.id.InTimeText);
         SmsOutText = (TextView)findViewById(R.id.OutTimeText);
+        SmsRG = (RadioGroup)findViewById(R.id.SmsRG);
         NormalSms = (RadioButton) findViewById(R.id.NormalRB);
         BodySms = (RadioButton)findViewById(R.id.BodyRB);
         ResearchSms = (RadioButton)findViewById(R.id.ResearchRB);
+        TimeChoose = (Button)findViewById(R.id.TimeChooseB);
 
     }
+    public void Work(){
+        FirstSms = new Smser();
+        mYear = FirstSms.getSmsInTime().get(Calendar.YEAR);
+        mMonth = FirstSms.getSmsInTime().get(Calendar.MONTH);
+        mDay = FirstSms.getSmsInTime().get(Calendar.DAY_OF_MONTH);
+
+        TimeChoose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDialog(0);
+                datePickerDialog.updateDate(mYear, mMonth, mDay);
+
+            }
+        });
+        //替代役資格設定
+        SmsRG.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                int LifeYear = 0;
+                int LifeDay = 0;
+                switch (checkedId){
+                    case R.id.NormalRB:
+                        LifeYear = 1;
+                        LifeDay = 15;
+                       break;
+                    case R.id.BodyRB:
+                        LifeYear = 1;
+                        break;
+                    case R.id.ResearchRB:
+                        LifeYear = 3;
+                        break;
+                }
+                FirstSms.setSmsLifeDay(LifeYear,LifeDay);
+                FirstSms.setSmsOutTime();
+                SmsOutText.setText(""+FirstSms.ShowSmsInTime(FirstSms.getSmsOutTime().get(Calendar.YEAR),
+                                                          FirstSms.getSmsOutTime().get(Calendar.MONTH),
+                                                          FirstSms.getSmsOutTime().get(Calendar.DAY_OF_MONTH)));
+
+            }
+        });
+    }
+    //設定時間
+    @Override
+    protected Dialog onCreateDialog(int id) {
+        datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month,
+                                  int day) {
+                mYear = year;
+                mMonth = month;
+                mDay = day;
+                FirstSms.setSmsInTime(mYear, mMonth, mDay);
+                SmsInText.setText(""+ FirstSms.ShowSmsInTime(mYear,mMonth,mDay));
+
+            }
+
+        }, mYear,mMonth, mDay);
+
+        return datePickerDialog;
+    }
+
 }
