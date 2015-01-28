@@ -46,6 +46,10 @@ public class Smser {
     public Calendar getSmsOutTime(){
         return SmsOutTime;
     }
+    //設定減免天數
+    public void setReduceDay(int ReduceDay){
+        DiscountDay = ReduceDay*-1;
+    }
     //設定役別
     public void setSmsLifeDay(int userYear,int userDay){
             SmsYear = userYear;
@@ -53,8 +57,9 @@ public class Smser {
     }
     //取得退伍天數
     public long getLeaveDay(){
+        Calendar Now = Calendar.getInstance();
         long aDayInMilliSecond = 60 * 60 * 24 * 1000;     //一天的毫秒數
-        LeaveDay = (SmsOutTime.getTimeInMillis() - SmsInTime.getTimeInMillis()) / aDayInMilliSecond;
+        LeaveDay = (SmsOutTime.getTimeInMillis() - Now.getTimeInMillis()) / aDayInMilliSecond;
         return LeaveDay;
     }
     //日期格式

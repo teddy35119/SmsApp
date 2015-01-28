@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.NumberPicker;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -46,15 +47,17 @@ public class MainActivity extends ActionBarActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            setContentView(R.layout.setting);
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
-    TextView SmsInText,SmsOutText;
+    TextView SmsInText,SmsOutText,LeaveDayText;
     RadioButton  NormalSms,BodySms,ResearchSms;
     RadioGroup SmsRG;
     Button TimeChoose;
+    NumberPicker RuduceDayPicker;
     int mYear,mMonth,mDay;
     DatePickerDialog datePickerDialog;
     public Smser FirstSms;
@@ -62,19 +65,31 @@ public class MainActivity extends ActionBarActivity {
     public void InitCompoment(){
         SmsInText = (TextView)findViewById(R.id.InTimeText);
         SmsOutText = (TextView)findViewById(R.id.OutTimeText);
+        LeaveDayText = (TextView)findViewById(R.id.LeaveDayText);
         SmsRG = (RadioGroup)findViewById(R.id.SmsRG);
         NormalSms = (RadioButton) findViewById(R.id.NormalRB);
         BodySms = (RadioButton)findViewById(R.id.BodyRB);
         ResearchSms = (RadioButton)findViewById(R.id.ResearchRB);
         TimeChoose = (Button)findViewById(R.id.TimeChooseB);
-
+        RuduceDayPicker = (NumberPicker)findViewById(R.id.ReduceDayPicker);
     }
     public void Work(){
         FirstSms = new Smser();
         mYear = FirstSms.getSmsInTime().get(Calendar.YEAR);
         mMonth = FirstSms.getSmsInTime().get(Calendar.MONTH);
         mDay = FirstSms.getSmsInTime().get(Calendar.DAY_OF_MONTH);
-
+        RuduceDayPicker.setMaxValue(30);
+        RuduceDayPicker.setMinValue(0);
+        RuduceDayPicker.setValue(10);
+        RuduceDayPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+                FirstSms.setReduceDay(newVal);
+                FirstSms.setSmsOutTime();
+                ShowSmsTIME();
+                LeaveDayText.setText(""+ FirstSms.getLeaveDay());
+            }
+        });
         TimeChoose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -103,9 +118,7 @@ public class MainActivity extends ActionBarActivity {
                 }
                 FirstSms.setSmsLifeDay(LifeYear,LifeDay);
                 FirstSms.setSmsOutTime();
-                SmsOutText.setText(""+FirstSms.ShowSmsInTime(FirstSms.getSmsOutTime().get(Calendar.YEAR),
-                                                          FirstSms.getSmsOutTime().get(Calendar.MONTH),
-                                                          FirstSms.getSmsOutTime().get(Calendar.DAY_OF_MONTH)));
+                ShowSmsTIME();
 
             }
         });
@@ -129,5 +142,10 @@ public class MainActivity extends ActionBarActivity {
 
         return datePickerDialog;
     }
+    public void ShowSmsTIME(){
+        SmsOutText.setText(""+FirstSms.ShowSmsInTime(FirstSms.getSmsOutTime().get(Calendar.YEAR),
+                FirstSms.getSmsOutTime().get(Calendar.MONTH),
+                FirstSms.getSmsOutTime().get(Calendar.DAY_OF_MONTH)));
 
+    }
 }

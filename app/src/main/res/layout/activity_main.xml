@@ -39,14 +39,13 @@
             android:layout_height="wrap_content"
             android:text="@string/ResearchSms"
             android:id="@+id/ResearchRB" />
-
-        <EditText
-            android:layout_width="match_parent"
+        <NumberPicker
+            android:id="@+id/ReduceDayPicker"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:inputType="number"
-            android:ems="10"
-            android:id="@+id/editText" />
-
+            android:layout_below="@+id/textView1"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="16dp" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -66,7 +65,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Medium Text"
-            android:id="@+id/LeaveDatText" />
+            android:id="@+id/LeaveDayText" />
 
     </RadioGroup>
 </RelativeLayout>
