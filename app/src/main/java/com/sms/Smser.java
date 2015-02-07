@@ -30,6 +30,15 @@ public class Smser {
         InDay = Day;
         SmsInTime.set(InYeay,InMonth,InDay);
     }
+    public int getSmsYear(){
+        return InYeay;
+    }
+    public int getSmsMonth(){
+        return InMonth;
+    }
+    public int getSmsDay(){
+        return InDay;
+    }
     //取得入伍日期
     public Calendar getSmsInTime(){
 
@@ -50,10 +59,22 @@ public class Smser {
     public void setReduceDay(int ReduceDay){
         DiscountDay = ReduceDay*-1;
     }
+    //取得減免天數
+    public int getReduceDay(){
+
+        return DiscountDay;
+    }
     //設定役別
     public void setSmsLifeDay(int userYear,int userDay){
             SmsYear = userYear;
             SmsDay = userDay;
+    }
+    //取得役別天數
+    public int getLifeYear(){
+        return SmsYear;
+    }
+    public int getLifeDay(){
+        return SmsDay;
     }
     //取得退伍天數
     public long getLeaveDay(){
