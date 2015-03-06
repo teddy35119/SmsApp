@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:text="@string/TimeChoose"
+            android:id="@+id/TimeChooseB"
+            android:layout_margin="10dp"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:layout_marginLeft="30dp"
+                android:padding="5dp"
+                android:textSize="25sp"
+                android:text="役別選擇"/>
+
+            <RadioGroup
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:layout_marginLeft="30dp"
+                android:padding="3dp"
+                android:id="@+id/SmsRG">
+
+            <RadioButton
+                android:layout_width="180dp"
+                android:layout_height="50dp"
+                android:padding="5dp"
+                android:textSize="20sp"
+                android:text="@string/NormalSms"
+                android:id="@+id/NormalRB" />
+
+            <RadioButton
+                android:layout_width="180dp"
+                android:layout_height="50dp"
+                android:padding="5dp"
+                android:textSize="20sp"
+                android:text="@string/BodySms"
+                android:id="@+id/BodyRB" />
+
+            <RadioButton
+                android:layout_width="180dp"
+                android:layout_height="50dp"
+                android:padding="5dp"
+                android:textSize="20sp"
+                android:lineSpacingExtra="3dp"
+                android:lineSpacingMultiplier="1.5"
+                android:text="@string/ResearchSms"
+                android:id="@+id/ResearchRB" />
+            </RadioGroup>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:layout_marginLeft="30dp"
+                android:padding="5dp"
+                android:textSize="25sp"
+                android:text="減免天數"
+                 />
+            <NumberPicker
+                android:id="@+id/ReduceDayPicker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0"
+                android:layout_marginRight="80dp"
+
+                >
+            </NumberPicker>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:layout_marginTop="5dp"
+            >
+
+            <Button
+                android:layout_width="90dp"
+                android:layout_height="60dp"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:layout_marginRight="5dp"
+                android:layout_marginLeft="10dp"
+                android:text="@string/Save"
+                android:id="@+id/SaveButton"
+
+                />
+
+            <Button
+                android:layout_width="90dp"
+                android:layout_height="60dp"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="10dp"
+                android:text="@string/Reset"
+                android:id="@+id/ResetButton"
+                 />
+
+        </LinearLayout>
+
+
+</LinearLayout>
+
