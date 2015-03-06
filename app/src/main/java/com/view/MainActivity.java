@@ -1,23 +1,23 @@
 package com.view;
 
-import android.app.DatePickerDialog;
-import android.app.Dialog;
+
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.DatePicker;
-import android.widget.NumberPicker;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
+
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.teddy.smsapp.R;
+import com.sms.Preference;
 import com.sms.Smser;
 
+import java.text.NumberFormat;
 import java.util.Calendar;
 
 
@@ -28,7 +28,9 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         showInitCompoment();
-        FirstSms = new Smser();
+        SmsPreference = new Preference(MainActivity.this);
+        mainWork();
+
     }
 
 
@@ -48,127 +50,61 @@ public class MainActivity extends ActionBarActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            setContentView(R.layout.setting);
-            settingInitCompoment();
-            settingWork();
+            Intent SettingIntent = new Intent();
+            SettingIntent.setClass(MainActivity.this,SettingActivity.class);
+            startActivity(SettingIntent);
+            //setContentView(R.layout.setting);
+
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
-    private TextView SmsInText,SmsOutText,LeaveDayText;
-    private RadioButton  NormalSms,BodySms,ResearchSms;
-    private RadioGroup SmsRG;
-    private Button TimeChoose;
-    private NumberPicker RuduceDayPicker;
-    private int mYear,mMonth,mDay;
-    private DatePickerDialog datePickerDialog;
-    private Smser FirstSms;
-    private SharedPreferences SmsPreferences;
-
-    public void settingInitCompoment(){
-
-        SmsRG = (RadioGroup)findViewById(R.id.SmsRG);
-        NormalSms = (RadioButton) findViewById(R.id.NormalRB);
-        BodySms = (RadioButton)findViewById(R.id.BodyRB);
-        ResearchSms = (RadioButton)findViewById(R.id.ResearchRB);
-        TimeChoose = (Button)findViewById(R.id.TimeChooseB);
-        RuduceDayPicker = (NumberPicker)findViewById(R.id.ReduceDayPicker);
+    @Override
+    protected void onResume(){
+        super.onResume();
+        mainWork();
+        Toast.makeText(MainActivity.this,"Resume",Toast.LENGTH_LONG).show();
     }
+    @Override
+    protected void onPause(){
+        super.onPause();
+        mainWork();
+        Toast.makeText(MainActivity.this,"Pause",Toast.LENGTH_LONG).show();
+
+    }
+    private TextView SmsInText,SmsOutText,LeaveDayText,RemainPercentText;
+    private ProgressBar SmsPorgressBar;
+    private Smser ShowSms;
+    private Preference SmsPreference;
     public void showInitCompoment(){
         SmsInText = (TextView)findViewById(R.id.InTimeText);
         SmsOutText = (TextView)findViewById(R.id.OutTimeText);
         LeaveDayText = (TextView)findViewById(R.id.LeaveDayText);
+        SmsPorgressBar = (ProgressBar)findViewById(R.id.progressBar);
+        RemainPercentText = (TextView)findViewById(R.id.RemainPercentText);
     }
-    public void sharePreferences(){
-        SmsPreferences = getSharedPreferences("Setting",0);
-        SmsPreferences.edit().putInt("ReduceDay",FirstSms.getReduceDay())
-                             .putInt("LifeYear",FirstSms.getLifeYear())
-                             .putInt("LifeYear",FirstSms.getLifeDay())
-                             .putInt("SmsYear",FirstSms.getSmsYear())
-                             .putInt("SmsMonth",FirstSms.getSmsMonth())
-                             .putInt("SmsMonth",FirstSms.getSmsMonth());
-    }
-    public void settingWork(){
+    public void mainWork(){
 
+        ShowSms = SmsPreference.showWork() ;
+        SmsInText.setText("入伍日期" + ShowSms.dateFormat(ShowSms.getSmsYear(), ShowSms.getSmsMonth(), ShowSms.getSmsDay()));
 
-        //初始化
+        ShowSmsTIME();
+        LeaveDayText.setText("退伍天數" + ShowSms.getLeaveDay());
 
-        //取出初始化時間
-        mYear = FirstSms.getSmsInTime().get(Calendar.YEAR);
-        mMonth = FirstSms.getSmsInTime().get(Calendar.MONTH);
-        mDay = FirstSms.getSmsInTime().get(Calendar.DAY_OF_MONTH);
+        int SmsLifeDay = ShowSms.getLifeYear()*365 + ShowSms.getLifeDay();
+        SmsPorgressBar.setMax(SmsLifeDay);
+        int RemainDay = SmsLifeDay-(int)ShowSms.getLeaveDay();
+        SmsPorgressBar.setProgress(RemainDay);
+        double RemainPercent = ((double)RemainDay/(double)SmsLifeDay)*100;
 
-        //初始化減免天數Picker
-        RuduceDayPicker.setMaxValue(30);
-        RuduceDayPicker.setMinValue(0);
-        RuduceDayPicker.setValue(10);
-        RuduceDayPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
-            @Override
-            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-                FirstSms.setReduceDay(newVal);
-                FirstSms.setSmsOutTime();
+        RemainPercentText.setText("退伍進度下載：" + String.format("%.2f", RemainPercent) + "%");
 
-                //ShowSmsTIME();
-                //LeaveDayText.setText(""+ FirstSms.getLeaveDay());
-            }
-        });
-        TimeChoose.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showDialog(0);
-                datePickerDialog.updateDate(mYear, mMonth, mDay);
-
-            }
-        });
-        //替代役資格設定
-        SmsRG.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                int LifeYear = 0;
-                int LifeDay = 0;
-                switch (checkedId){
-                    case R.id.NormalRB:
-                        LifeYear = 1;
-                        LifeDay = 15;
-                       break;
-                    case R.id.BodyRB:
-                        LifeYear = 1;
-                        break;
-                    case R.id.ResearchRB:
-                        LifeYear = 3;
-                        break;
-                }
-                FirstSms.setSmsLifeDay(LifeYear,LifeDay);
-                FirstSms.setSmsOutTime();
-                //ShowSmsTIME();
-
-            }
-        });
-    }//////////////////////settingWork finish////////////////////////
-    //設定入伍時間Picker
-    @Override
-    protected Dialog onCreateDialog(int id) {
-        datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker view, int year, int month,
-                                  int day) {
-                mYear = year;
-                mMonth = month;
-                mDay = day;
-                FirstSms.setSmsInTime(mYear, mMonth, mDay);
-                //SmsInText.setText(""+ FirstSms.ShowSmsInTime(mYear,mMonth,mDay));
-
-            }
-
-        }, mYear,mMonth, mDay);
-
-        return datePickerDialog;
     }
     public void ShowSmsTIME(){
-        SmsOutText.setText(""+FirstSms.ShowSmsInTime(FirstSms.getSmsOutTime().get(Calendar.YEAR),
-                FirstSms.getSmsOutTime().get(Calendar.MONTH),
-                FirstSms.getSmsOutTime().get(Calendar.DAY_OF_MONTH)));
+        SmsOutText.setText("退伍日期" + ShowSms.dateFormat(ShowSms.getSmsOutTime().get(Calendar.YEAR),
+                ShowSms.getSmsOutTime().get(Calendar.MONTH),
+                ShowSms.getSmsOutTime().get(Calendar.DAY_OF_MONTH)) + "-" + ShowSms.TimeFormat(ShowSms.getSmsOutTime()));
 
     }
 }

@@ -1,7 +1,8 @@
 package com.sms;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
-
+import android.content.SharedPreferences;
 /**
  * Created by teddy on 2014/12/31.
  */
@@ -15,6 +16,7 @@ public class Smser {
     private int InMonth;
     private int InDay;
     private long LeaveDay;
+
     //建構子
     public Smser()
     {
@@ -28,7 +30,7 @@ public class Smser {
         InYeay = Year;
         InMonth = Month;
         InDay = Day;
-        SmsInTime.set(InYeay,InMonth,InDay);
+        SmsInTime.set(InYeay,InMonth,InDay,0,0,0);
     }
     public int getSmsYear(){
         return InYeay;
@@ -46,7 +48,8 @@ public class Smser {
     }
     //設定退伍時間
     public void setSmsOutTime(){
-        SmsOutTime.set(InYeay,InMonth,InDay);
+        SmsOutTime.set(InYeay,InMonth,InDay,0,0,0);
+
         SmsOutTime.add(Calendar.YEAR,SmsYear);
         SmsOutTime.add(Calendar.DAY_OF_YEAR,SmsDay);
         SmsOutTime.add(Calendar.DAY_OF_YEAR,DiscountDay);
@@ -62,7 +65,7 @@ public class Smser {
     //取得減免天數
     public int getReduceDay(){
 
-        return DiscountDay;
+        return DiscountDay*-1;
     }
     //設定役別
     public void setSmsLifeDay(int userYear,int userDay){
@@ -77,16 +80,22 @@ public class Smser {
         return SmsDay;
     }
     //取得退伍天數
-    public long getLeaveDay(){
+    public  long  getLeaveDay(){
         Calendar Now = Calendar.getInstance();
         long aDayInMilliSecond = 60 * 60 * 24 * 1000;     //一天的毫秒數
         LeaveDay = (SmsOutTime.getTimeInMillis() - Now.getTimeInMillis()) / aDayInMilliSecond;
         return LeaveDay;
     }
     //日期格式
-    public String ShowSmsInTime(int year,int monthOfYear,int dayOfMonth){
+    public static String dateFormat(int year,int monthOfYear,int dayOfMonth){
         return String.valueOf(year) + "-"
                 + String.valueOf(monthOfYear + 1) + "-"
                 + String.valueOf(dayOfMonth);
+    }
+    public static String TimeFormat(Calendar SmsOutTime){
+        SimpleDateFormat df = new SimpleDateFormat("HH:mm:ss");
+        String TimeOut = df.format(SmsOutTime.getTime());
+        return TimeOut;
+
     }
 }

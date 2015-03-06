@@ -11,4 +11,8 @@
     <string name="NormalSms">一般替代役</string>
     <string name="BodySms">替代役體位</string>
     <string name="ResearchSms">研發替代役</string>
+    <string name="Save">儲存</string>
+    <string name="Reset">重設</string>
+    <string name="title_activity_setting">SettingActivity</string>
+
 </resources>
