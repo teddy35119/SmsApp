@@ -87,10 +87,10 @@ public class MainActivity extends ActionBarActivity {
     public void mainWork(){
 
         ShowSms = SmsPreference.showWork() ;
-        SmsInText.setText("入伍日期" + ShowSms.dateFormat(ShowSms.getSmsYear(), ShowSms.getSmsMonth(), ShowSms.getSmsDay()));
+        SmsInText.setText(getText(R.string.SmsInDate) + ShowSms.dateFormat(ShowSms.getSmsYear(), ShowSms.getSmsMonth(), ShowSms.getSmsDay()));
 
         ShowSmsTIME();
-        LeaveDayText.setText("退伍天數" + ShowSms.getLeaveDay());
+        LeaveDayText.setText(getText(R.string.SmsOutDate) + String.valueOf(ShowSms.getLeaveDay()));
 
         int SmsLifeDay = ShowSms.getLifeYear()*365 + ShowSms.getLifeDay();
         SmsPorgressBar.setMax(SmsLifeDay);
@@ -102,7 +102,7 @@ public class MainActivity extends ActionBarActivity {
 
     }
     public void ShowSmsTIME(){
-        SmsOutText.setText("退伍日期" + ShowSms.dateFormat(ShowSms.getSmsOutTime().get(Calendar.YEAR),
+        SmsOutText.setText(getText(R.string.SmsOutDate) + ShowSms.dateFormat(ShowSms.getSmsOutTime().get(Calendar.YEAR),
                 ShowSms.getSmsOutTime().get(Calendar.MONTH),
                 ShowSms.getSmsOutTime().get(Calendar.DAY_OF_MONTH)) + "-" + ShowSms.TimeFormat(ShowSms.getSmsOutTime()));
 

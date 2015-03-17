@@ -38,4 +38,7 @@ public  class   Preference {
         ShowSms.setSmsOutTime();
         return ShowSms;
     }
+    public int getReduceDay(){
+        return SmsPreferences.getInt("ReduceDay", 0);
+    }
 }

@@ -4,6 +4,7 @@
     <string name="app_name">SmsApp</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <!--Setting_Layout-->
     <string name="TimeChoose">入伍日選擇</string>
     <string name="SmsInTime">入伍日</string>
     <string name="SmsOutTime">退伍日</string>
@@ -14,5 +15,9 @@
     <string name="Save">儲存</string>
     <string name="Reset">重設</string>
     <string name="title_activity_setting">SettingActivity</string>
+    <!--MainActivity_Layout -->
+    <string name="SmsInDate">入伍日期：</string>
+    <string name="SmsOutDate">退伍日期：</string>
+    <string name="DateCount">退伍天數倒數：</string>
 
 </resources>

@@ -39,6 +39,7 @@ public class SettingActivity extends ActionBarActivity {
     private int mYear,mMonth,mDay;
     private DatePickerDialog datePickerDialog;
     private Smser FirstSms;
+    private  Preference SettingPreferences;
     public void settingInitCompoment(){
 
         SmsRG = (RadioGroup)findViewById(R.id.SmsRG);
@@ -49,6 +50,8 @@ public class SettingActivity extends ActionBarActivity {
         SaveButton = (Button)findViewById(R.id.SaveButton);
         ResetButton = (Button)findViewById(R.id.ResetButton);
         ReduceDayPicker = (NumberPicker)findViewById(R.id.ReduceDayPicker);
+        SettingPreferences = new Preference(this);
+
     }
     public void settingWork(){
 
@@ -60,7 +63,7 @@ public class SettingActivity extends ActionBarActivity {
         //初始化減免天數Picker
         ReduceDayPicker.setMaxValue(30);
         ReduceDayPicker.setMinValue(0);
-        ReduceDayPicker.setValue(10);
+        ReduceDayPicker.setValue(SettingPreferences.getReduceDay());
         ReduceDayPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
             @Override
             public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
@@ -140,7 +143,6 @@ public class SettingActivity extends ActionBarActivity {
         return datePickerDialog;
     }
     public void sharePreferences(){
-        Preference SettingPreferences = new Preference(this);
         SettingPreferences.saveSetting(FirstSms);
     }
 
