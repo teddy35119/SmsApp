@@ -9,9 +9,9 @@ import android.content.SharedPreferences;
 public class Smser {
     private Calendar SmsInTime;
     private Calendar SmsOutTime;
-    private int DiscountDay;
-    private int SmsYear;
-    private int SmsDay;
+    private int ReduceDay;
+    private int LifeYear;
+    private int LifeDay;
     private int InYeay;
     private int InMonth;
     private int InDay;
@@ -50,34 +50,34 @@ public class Smser {
     public void setSmsOutTime(){
         SmsOutTime.set(InYeay,InMonth,InDay,0,0,0);
 
-        SmsOutTime.add(Calendar.YEAR,SmsYear);
-        SmsOutTime.add(Calendar.DAY_OF_YEAR,SmsDay);
-        SmsOutTime.add(Calendar.DAY_OF_YEAR,DiscountDay);
+        SmsOutTime.add(Calendar.YEAR,LifeYear);
+        SmsOutTime.add(Calendar.DAY_OF_YEAR,LifeDay);
+        SmsOutTime.add(Calendar.DAY_OF_YEAR,ReduceDay);
     }
     //取得退伍日期
     public Calendar getSmsOutTime(){
         return SmsOutTime;
     }
     //設定減免天數
-    public void setReduceDay(int ReduceDay){
-        DiscountDay = ReduceDay*-1;
+    public void setReduceDay(int userReduceDay){
+        ReduceDay = userReduceDay*-1;
     }
     //取得減免天數
     public int getReduceDay(){
 
-        return DiscountDay*-1;
+        return ReduceDay*-1;
     }
     //設定役別
     public void setSmsLifeDay(int userYear,int userDay){
-            SmsYear = userYear;
-            SmsDay = userDay;
+        LifeYear = userYear;
+        LifeDay = userDay;
     }
     //取得役別天數
     public int getLifeYear(){
-        return SmsYear;
+        return LifeYear;
     }
     public int getLifeDay(){
-        return SmsDay;
+        return LifeDay;
     }
     //取得退伍天數
     public  long  getLeaveDay(){

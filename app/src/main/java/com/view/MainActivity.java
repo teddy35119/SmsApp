@@ -64,13 +64,13 @@ public class MainActivity extends ActionBarActivity {
     protected void onResume(){
         super.onResume();
         mainWork();
-        Toast.makeText(MainActivity.this,"Resume",Toast.LENGTH_LONG).show();
+        //Toast.makeText(MainActivity.this,"Resume",Toast.LENGTH_LONG).show();
     }
     @Override
     protected void onPause(){
         super.onPause();
         mainWork();
-        Toast.makeText(MainActivity.this,"Pause",Toast.LENGTH_LONG).show();
+        //Toast.makeText(MainActivity.this,"Pause",Toast.LENGTH_LONG).show();
 
     }
     private TextView SmsInText,SmsOutText,LeaveDayText,RemainPercentText;
@@ -104,7 +104,7 @@ public class MainActivity extends ActionBarActivity {
     public void ShowSmsTIME(){
         SmsOutText.setText(getText(R.string.SmsOutDate) + ShowSms.dateFormat(ShowSms.getSmsOutTime().get(Calendar.YEAR),
                 ShowSms.getSmsOutTime().get(Calendar.MONTH),
-                ShowSms.getSmsOutTime().get(Calendar.DAY_OF_MONTH)) + "-" + ShowSms.TimeFormat(ShowSms.getSmsOutTime()));
+                ShowSms.getSmsOutTime().get(Calendar.DAY_OF_MONTH)) );
 
     }
 }

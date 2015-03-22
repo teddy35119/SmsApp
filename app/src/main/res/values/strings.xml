@@ -15,6 +15,7 @@
     <string name="Save">儲存</string>
     <string name="Reset">重設</string>
     <string name="title_activity_setting">SettingActivity</string>
+    <string name="Confirm">確認</string>
     <!--MainActivity_Layout -->
     <string name="SmsInDate">入伍日期：</string>
     <string name="SmsOutDate">退伍日期：</string>

@@ -15,6 +15,7 @@ import android.widget.DatePicker;
 import android.widget.NumberPicker;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import com.example.teddy.smsapp.R;
 import com.sms.Preference;
@@ -29,14 +30,26 @@ public class SettingActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.setting);
         settingInitCompoment();
+        Toast.makeText(SettingActivity.this,"進來onCreate"+LifeYear+"/"+LifeDay,Toast.LENGTH_SHORT).show();
         FirstSms = new Smser();
         settingWork();
+    }
+    @Override
+    protected void onResume(){
+        super.onResume();
+
+    }
+    @Override
+    protected void onPause(){
+        super.onPause();
+
     }
     private RadioButton  NormalSms,BodySms,ResearchSms;
     private RadioGroup SmsRG;
     private Button TimeChoose,SaveButton,ResetButton;
     private NumberPicker ReduceDayPicker;
     private int mYear,mMonth,mDay;
+    private int LifeYear,LifeDay;
     private DatePickerDialog datePickerDialog;
     private Smser FirstSms;
     private  Preference SettingPreferences;
@@ -56,28 +69,43 @@ public class SettingActivity extends ActionBarActivity {
     public void settingWork(){
 
         //取出初始化時間
-        mYear = FirstSms.getSmsInTime().get(Calendar.YEAR);
-        mMonth = FirstSms.getSmsInTime().get(Calendar.MONTH);
-        mDay = FirstSms.getSmsInTime().get(Calendar.DAY_OF_MONTH);
+        mYear = SettingPreferences.getYear();
+        mMonth = SettingPreferences.getMonth();
+        mDay = SettingPreferences.getDay();
+
+        FirstSms.setSmsInTime(mYear, mMonth, mDay);
+
+        //取出服役時間
+        LifeYear = SettingPreferences.getLifeYear();
+        LifeDay = SettingPreferences.getLifeDay();
+
+        FirstSms.setSmsLifeDay(LifeYear,LifeDay);
+
+        TimeChoose.setText(getText(R.string.SmsInTime) + String.valueOf(mYear) +"/"+ String.valueOf(mMonth+1) +"/"+String.valueOf(mDay) );
 
         //初始化減免天數Picker
         ReduceDayPicker.setMaxValue(30);
         ReduceDayPicker.setMinValue(0);
         ReduceDayPicker.setValue(SettingPreferences.getReduceDay());
+        saveReduceDay(ReduceDayPicker.getValue());
+
+        //初始化RationButton
+        SmsRG.check(SettingPreferences.getRationBCheckId());
+
+        //減免天數Picker
         ReduceDayPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
             @Override
             public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-                FirstSms.setReduceDay(newVal);
-                FirstSms.setSmsOutTime();
-
-
+                saveReduceDay(newVal);
             }
         });
+        //時間選擇Button
         TimeChoose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showDialog(0);
                 datePickerDialog.updateDate(mYear, mMonth, mDay);
+                TimeChoose.setText(getText(R.string.SmsInTime) + String.valueOf(mYear) +"/"+ String.valueOf(mMonth+1) +"/"+String.valueOf(mDay) );
 
             }
         });
@@ -85,8 +113,7 @@ public class SettingActivity extends ActionBarActivity {
         SmsRG.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                int LifeYear = 0;
-                int LifeDay = 0;
+
                 switch (checkedId){
                     case R.id.NormalRB:
                         LifeYear = 1;
@@ -98,10 +125,11 @@ public class SettingActivity extends ActionBarActivity {
                     case R.id.ResearchRB:
                         LifeYear = 3;
                         break;
+
                 }
+
                 FirstSms.setSmsLifeDay(LifeYear,LifeDay);
                 FirstSms.setSmsOutTime();
-
 
             }
         });
@@ -109,10 +137,11 @@ public class SettingActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 sharePreferences();
+                FirstSms.setSmsOutTime();
                 AlertDialog.Builder dialog = new AlertDialog.Builder(SettingActivity.this);
                 dialog.setTitle("確認資料");
-                dialog.setMessage("Ly" + FirstSms.getLifeYear() + "Ld" + FirstSms.getLifeDay()+"RD"+FirstSms.getReduceDay());
-                dialog.setPositiveButton(R.string.abc_action_bar_home_description,
+                dialog.setMessage("Ly" + FirstSms.getLifeYear() + "Ld" + FirstSms.getLifeDay() +"CHECKID" + SettingPreferences.getLifeYear());
+                dialog.setPositiveButton(R.string.Confirm,
                         new DialogInterface.OnClickListener() {
                             public void onClick(
                                     DialogInterface dialoginterface, int i) {
@@ -134,7 +163,7 @@ public class SettingActivity extends ActionBarActivity {
                 mMonth = month;
                 mDay = day;
                 FirstSms.setSmsInTime(mYear, mMonth, mDay);
-                //SmsInText.setText(""+ FirstSms.ShowSmsInTime(mYear,mMonth,mDay));
+
 
             }
 
@@ -143,7 +172,12 @@ public class SettingActivity extends ActionBarActivity {
         return datePickerDialog;
     }
     public void sharePreferences(){
-        SettingPreferences.saveSetting(FirstSms);
+        SettingPreferences.saveSetting(FirstSms,SmsRG.getCheckedRadioButtonId());
+
+    }
+    public void saveReduceDay(int newVal){
+        FirstSms.setReduceDay(newVal);
+        FirstSms.setSmsOutTime();
     }
 
     @Override

@@ -10,26 +10,27 @@ import java.util.Calendar;
  */
 public  class   Preference {
     private SharedPreferences SmsPreferences;
-    private Smser ShowSms;
+    private Smser ShowSms = new Smser();
+    private  int year,month,day,LifeYear,LifeDay,ReduecDay;;
     public Preference(Context context){
         SmsPreferences = context.getSharedPreferences("setting",0);
     }
-    public  void saveSetting(Smser FirstSms){
+    public  void saveSetting(Smser FirstSms,int checkedId){
         SmsPreferences.edit().putInt("ReduceDay",FirstSms.getReduceDay())
                 .putInt("LifeYear",FirstSms.getLifeYear())
                 .putInt("LifeDay",FirstSms.getLifeDay())
                 .putInt("SmsYear",FirstSms.getSmsYear())
                 .putInt("SmsMonth",FirstSms.getSmsMonth())
-                .putInt("SmsDay",FirstSms.getSmsDay()).commit();
+                .putInt("SmsDay",FirstSms.getSmsDay())
+                .putInt("RGcheckedId",checkedId).commit();
     }
+
     public Smser showWork(){
-        ShowSms = new Smser();
-        int year,month,day,LifeYear,LifeDay,ReduecDay;
-        year = SmsPreferences.getInt("SmsYear", ShowSms.getSmsInTime().get(Calendar.YEAR));
-        month = SmsPreferences.getInt("SmsMonth", ShowSms.getSmsInTime().get(Calendar.MONTH));
-        day = SmsPreferences.getInt("SmsDay", ShowSms.getSmsInTime().get(Calendar.DAY_OF_MONTH));
-        LifeYear = SmsPreferences.getInt("LifeYear", 0);
-        LifeDay = SmsPreferences.getInt("LifeDay",0);
+        getYear();
+        getMonth();
+        getDay();
+        getLifeYear();
+        getLifeDay();
         ReduecDay = SmsPreferences.getInt("ReduceDay", 0);
 
         ShowSms.setSmsInTime(year,month,day);
@@ -40,5 +41,24 @@ public  class   Preference {
     }
     public int getReduceDay(){
         return SmsPreferences.getInt("ReduceDay", 0);
+    }
+    public int getRationBCheckId(){
+        return SmsPreferences.getInt("RGcheckedId",-1);
+    }
+    public int getLifeYear(){
+        return  LifeYear = SmsPreferences.getInt("LifeYear",0);
+    }
+    public int getLifeDay(){
+        return  LifeDay = SmsPreferences.getInt("LifeDay",0);
+    }
+
+    public int getYear(){
+        return year = SmsPreferences.getInt("SmsYear", ShowSms.getSmsInTime().get(Calendar.YEAR));
+    }
+    public int getMonth(){
+        return  month = SmsPreferences.getInt("SmsMonth", ShowSms.getSmsInTime().get(Calendar.MONTH));
+    }
+    public int getDay(){
+        return  day = SmsPreferences.getInt("SmsDay", ShowSms.getSmsInTime().get(Calendar.DAY_OF_MONTH));
     }
 }
