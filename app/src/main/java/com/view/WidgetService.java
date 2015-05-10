@@ -11,6 +11,8 @@ import android.text.format.DateFormat;
 import android.widget.RemoteViews;
 
 import com.example.teddy.smsapp.R;
+import com.sms.Preference;
+import com.sms.Smser;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -19,12 +21,17 @@ public class WidgetService extends Service {
     private Handler mHandlerBoss = null;
     private HandlerThread mHandlerEmployee = null;
     private String EmployeeName = "John";
+    private Preference SmsPreference;
+    private Smser WidgetSms;
+    private static Long LeaveDay;
     public WidgetService() {
     }
 
     @Override
     public void onDestroy() {
+
         super.onDestroy();
+        mHandlerBoss.removeCallbacks(mRunnable);
     }
 
     @Override
@@ -33,6 +40,9 @@ public class WidgetService extends Service {
         mHandlerEmployee.start();
         mHandlerBoss = new Handler(mHandlerEmployee.getLooper());
         mHandlerBoss.post(mRunnable);
+        SmsPreference = new Preference(this);
+        WidgetSms = SmsPreference.showWork();
+        LeaveDay = WidgetSms.getLeaveDay();
         return super.onStartCommand(intent, flags, startId);
     }
     private Runnable mRunnable = new Runnable() {
@@ -45,9 +55,11 @@ public class WidgetService extends Service {
     };
     private void buildUpdate()
     {
+        LeaveDay = WidgetSms.getLeaveDay();
         //更新Widget
+        CharSequence widgetText = this.getString(R.string.SmsOutDay)+LeaveDay;
         RemoteViews view = new RemoteViews(getPackageName(), R.layout.sms_widget);
-        view.setTextViewText(R.id.appwidget_text, new SimpleDateFormat( "yyyy/MM/dd HH:mm:ss" ).format( new Date()));
+        view.setTextViewText(R.id.appwidget_text, new SimpleDateFormat( "yyyy/MM/dd HH:mm:ss" ).format( new Date()) + "\n" + widgetText );
 
         ComponentName thisWidget = new ComponentName(this, SmsWidget.class);
 

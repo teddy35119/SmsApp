@@ -1,26 +1,17 @@
 package com.view;
 
-
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
-
 import android.content.Context;
-
-
 import android.content.Intent;
-import android.os.HandlerThread;
 import android.widget.RemoteViews;
-
-
-
 import java.util.Date;
-
 import com.example.teddy.smsapp.R;
 import com.sms.Preference;
 import com.sms.Smser;
 
 import java.text.SimpleDateFormat;
-import android.os.Handler;
+
 
 
 /**
@@ -45,7 +36,7 @@ public class SmsWidget extends AppWidgetProvider {
         app_manager = appWidgetManager;
         context_main = context;
         appWidgetId = appWidgetIds;
-
+        //intent service
         Intent intent = new Intent(context_main,WidgetService.class);
         context_main.startService(intent);
 
@@ -75,11 +66,11 @@ public class SmsWidget extends AppWidgetProvider {
                                 int appWidgetId) {
 
 
-        CharSequence widgetText = context.getString(R.string.appwidget_text)+LeaveDay;
+        CharSequence widgetText = context.getString(R.string.SmsOutDay)+LeaveDay;
 
         // Construct the RemoteViews object
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.sms_widget);
-        views.setTextViewText(R.id.appwidget_text,  new SimpleDateFormat( "yyyy/MM/dd HH:mm:ss" ).format( new Date()));
+        views.setTextViewText(R.id.appwidget_text,  new SimpleDateFormat( "yyyy/MM/dd HH:mm:ss" ).format( new Date()) + widgetText);
 
         // Instruct the widget manager to update the widget
         appWidgetManager.updateAppWidget(appWidgetId, views);

@@ -8,7 +8,7 @@
     <string name="TimeChoose">入伍日選擇</string>
     <string name="SmsInTime">入伍日</string>
     <string name="SmsOutTime">退伍日</string>
-    <string name="SmsOutDay">退伍天數</string>
+    <string name="SmsOutDay">退伍天數：</string>
     <string name="NormalSms">一般替代役</string>
     <string name="BodySms">替代役體位</string>
     <string name="ResearchSms">研發替代役</string>
