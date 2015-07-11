@@ -92,9 +92,12 @@ public class MainActivity extends ActionBarActivity {
         ShowSmsTIME();
         LeaveDayText.setText(getText(R.string.SmsOutDate) + String.valueOf(ShowSms.getLeaveDay()));
 
+        //取出當兵的總天數
         int SmsLifeDay = ShowSms.getLifeYear()*365 + ShowSms.getLifeDay();
         SmsPorgressBar.setMax(SmsLifeDay);
+        //計算剩餘天數
         int RemainDay = SmsLifeDay-(int)ShowSms.getLeaveDay();
+        //設定進度
         SmsPorgressBar.setProgress(RemainDay);
         double RemainPercent = ((double)RemainDay/(double)SmsLifeDay)*100;
 

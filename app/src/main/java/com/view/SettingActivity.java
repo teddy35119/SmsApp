@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -30,7 +31,7 @@ public class SettingActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.setting);
         settingInitCompoment();
-        Toast.makeText(SettingActivity.this,"進來onCreate"+LifeYear+"/"+LifeDay,Toast.LENGTH_SHORT).show();
+        //Toast.makeText(SettingActivity.this,"進來onCreate"+LifeYear+"/"+LifeDay,Toast.LENGTH_SHORT).show();
         FirstSms = new Smser();
         settingWork();
     }
@@ -120,9 +121,11 @@ public class SettingActivity extends ActionBarActivity {
                         LifeDay = 15;
                         break;
                     case R.id.BodyRB:
+                        if(LifeDay == 15){LifeDay = 0;}
                         LifeYear = 1;
                         break;
                     case R.id.ResearchRB:
+                        if(LifeDay == 15){LifeDay = 0;}
                         LifeYear = 3;
                         break;
 
@@ -139,14 +142,29 @@ public class SettingActivity extends ActionBarActivity {
                 sharePreferences();
                 FirstSms.setSmsOutTime();
                 AlertDialog.Builder dialog = new AlertDialog.Builder(SettingActivity.this);
-                dialog.setTitle("確認資料");
-                dialog.setMessage("Ly" + FirstSms.getLifeYear() + "Ld" + FirstSms.getLifeDay() +"CHECKID" + SettingPreferences.getLifeYear());
+                dialog.setTitle(getText(R.string.ConfirmData));
+                dialog.setMessage(
+                                    getText(R.string.SmsInTime) + String.valueOf(mYear) +"/"+ String.valueOf(mMonth+1) +"/"+String.valueOf(mDay) +"\n"+
+                                    getText(R.string.SmsInDate) + FirstSms.getLifeYear()+getText(R.string.Year)+ FirstSms.getLifeDay()+getText(R.string.Day)+"\n"+
+                                    getText(R.string.ReduceDay)+FirstSms.getReduceDay()
+                                 );
+
                 dialog.setPositiveButton(R.string.Confirm,
                         new DialogInterface.OnClickListener() {
                             public void onClick(
                                     DialogInterface dialoginterface, int i) {
+                                Intent mIntent = new Intent();
+                                mIntent.setClass(SettingActivity.this,MainActivity.class);
+                                startActivity(mIntent);
+                                SettingActivity.this.finish();
                             }
                         });
+                dialog.setNegativeButton(R.string.Cancle,new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
                 dialog.show();
                 }
 
@@ -163,6 +181,7 @@ public class SettingActivity extends ActionBarActivity {
                 mMonth = month;
                 mDay = day;
                 FirstSms.setSmsInTime(mYear, mMonth, mDay);
+                TimeChoose.setText(getText(R.string.SmsInTime) + String.valueOf(mYear) +"/"+ String.valueOf(mMonth+1) +"/"+String.valueOf(mDay) );
 
 
             }

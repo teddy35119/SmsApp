@@ -1,5 +1,7 @@
 package com.view;
 
+import android.app.Activity;
+import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
@@ -22,9 +24,11 @@ public class SmsWidget extends AppWidgetProvider {
     private Smser WidgetSms;
     private static Long LeaveDay;
 
-    Context context_main ;
-    AppWidgetManager app_manager;
-    int []appWidgetId;
+    private Context context_main ;
+    private AppWidgetManager app_manager;
+    private int []appWidgetId;
+
+    public static String OnClickAction = "IntentToActivity";
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         // There may be multiple widgets active, so update all of them
@@ -36,10 +40,20 @@ public class SmsWidget extends AppWidgetProvider {
         app_manager = appWidgetManager;
         context_main = context;
         appWidgetId = appWidgetIds;
+
         //intent service
         Intent intent = new Intent(context_main,WidgetService.class);
         context_main.startService(intent);
 
+        //點擊開啟主頁
+
+        Intent IntentActivity = new Intent(context_main,MainActivity.class);
+        //IntentActivity.setAction(OnClickAction);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, IntentActivity, 0);
+
+        RemoteViews views = new RemoteViews(context_main.getPackageName(), R.layout.sms_widget);
+        views.setOnClickPendingIntent(R.id.appwidget_text, pendingIntent);
+        appWidgetManager.updateAppWidget(appWidgetId, views);
 
         /*final int N = appWidgetIds.length;
         for (int i = 0; i < N; i++) {
@@ -48,7 +62,11 @@ public class SmsWidget extends AppWidgetProvider {
 
     }
 
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        super.onReceive(context, intent);
 
+    }
 
     @Override
     public void onEnabled(Context context) {

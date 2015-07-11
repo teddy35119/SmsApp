@@ -16,11 +16,17 @@
     <string name="Reset">重設</string>
     <string name="title_activity_setting">SettingActivity</string>
     <string name="Confirm">確認</string>
+    <string name="Cancle">取消</string>
+    <string name="ConfirmData">確認資料</string>
+    <string name="ReduceDay">減免天數：</string>
+    <string name="Year">年</string>
+    <string name="Day">日</string>
+
     <!-- MainActivity_Layout -->
     <string name="SmsInDate">入伍日期：</string>
     <string name="SmsOutDate">退伍日期：</string>
     <string name="DateCount">退伍天數倒數：</string>
-    <string name="appwidget_text">EXAMPLE</string>
+    <string name="appwidget_text">服役倒數計時</string>
     <string name="add_widget">Add widget</string>
 
 </resources>

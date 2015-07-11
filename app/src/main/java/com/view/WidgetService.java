@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.IBinder;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.widget.RemoteViews;
 
 import com.example.teddy.smsapp.R;
@@ -55,7 +56,8 @@ public class WidgetService extends Service {
     };
     private void buildUpdate()
     {
-        LeaveDay = WidgetSms.getLeaveDay();
+
+        Log.v("test","改4");
         //更新Widget
         CharSequence widgetText = this.getString(R.string.SmsOutDay)+LeaveDay;
         RemoteViews view = new RemoteViews(getPackageName(), R.layout.sms_widget);
