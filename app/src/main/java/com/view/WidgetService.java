@@ -24,7 +24,7 @@ public class WidgetService extends Service {
     private String EmployeeName = "John";
     private Preference SmsPreference;
     private Smser WidgetSms;
-    private static Long LeaveDay;
+    private static int LeaveDay;
     public WidgetService() {
     }
 
@@ -44,6 +44,7 @@ public class WidgetService extends Service {
         SmsPreference = new Preference(this);
         WidgetSms = SmsPreference.showWork();
         LeaveDay = WidgetSms.getLeaveDay();
+
         return super.onStartCommand(intent, flags, startId);
     }
     private Runnable mRunnable = new Runnable() {
@@ -57,11 +58,13 @@ public class WidgetService extends Service {
     private void buildUpdate()
     {
 
+
         Log.v("test","改4");
         //更新Widget
         CharSequence widgetText = this.getString(R.string.SmsOutDay)+LeaveDay;
+
         RemoteViews view = new RemoteViews(getPackageName(), R.layout.sms_widget);
-        view.setTextViewText(R.id.appwidget_text, new SimpleDateFormat( "yyyy/MM/dd HH:mm:ss" ).format( new Date()) + "\n" + widgetText );
+        view.setTextViewText(R.id.appwidget_text, new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(new Date()) + "\n" + widgetText );
 
         ComponentName thisWidget = new ComponentName(this, SmsWidget.class);
 

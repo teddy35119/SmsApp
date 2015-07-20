@@ -7,6 +7,8 @@ import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
 import android.widget.RemoteViews;
+import android.widget.Toast;
+
 import java.util.Date;
 import com.example.teddy.smsapp.R;
 import com.sms.Preference;
@@ -26,58 +28,66 @@ public class SmsWidget extends AppWidgetProvider {
 
     private Context context_main ;
     private AppWidgetManager app_manager;
-    private int []appWidgetId;
-
+    private int[] appWidgetId;
+    private Intent intentService;
     public static String OnClickAction = "IntentToActivity";
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         // There may be multiple widgets active, so update all of them
         SmsPreference = new Preference(context);
         WidgetSms = SmsPreference.showWork();
-        LeaveDay = WidgetSms.getLeaveDay();
-
+        //LeaveDay = WidgetSms.getLeaveDay();
 
         app_manager = appWidgetManager;
         context_main = context;
         appWidgetId = appWidgetIds;
 
-        //intent service
-        Intent intent = new Intent(context_main,WidgetService.class);
-        context_main.startService(intent);
 
-        //點擊開啟主頁
+        for (int i = 0; i <  appWidgetIds.length; i++) {
 
-        Intent IntentActivity = new Intent(context_main,MainActivity.class);
-        //IntentActivity.setAction(OnClickAction);
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, IntentActivity, 0);
+            //intent service
+            intentService = new Intent(context_main,WidgetService.class);
+            context_main.startService(intentService);
 
-        RemoteViews views = new RemoteViews(context_main.getPackageName(), R.layout.sms_widget);
-        views.setOnClickPendingIntent(R.id.appwidget_text, pendingIntent);
-        appWidgetManager.updateAppWidget(appWidgetId, views);
+            //點擊開啟主頁
 
-        /*final int N = appWidgetIds.length;
-        for (int i = 0; i < N; i++) {
-            updateAppWidget(context, appWidgetManager, appWidgetIds[i]);
-        }*/
+            Intent IntentActivity = new Intent(context_main,MainActivity.class);
+            PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, IntentActivity, 0);
+            RemoteViews views = new RemoteViews(context_main.getPackageName(), R.layout.sms_widget);
+            views.setOnClickPendingIntent(R.id.appwidget_text, pendingIntent);
+
+            appWidgetManager.updateAppWidget(appWidgetIds[i], views);
+
+            //updateAppWidget(context, appWidgetManager, appWidgetIds[i]);
+        }
 
     }
 
     @Override
     public void onReceive(Context context, Intent intent) {
         super.onReceive(context, intent);
+        Toast.makeText(context,"OnReceive",Toast.LENGTH_SHORT).show();
 
     }
 
     @Override
     public void onEnabled(Context context) {
         // Enter relevant functionality for when the first widget is created
+        Toast.makeText(context,"onEnabled",Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onDeleted(Context context, int[] appWidgetIds) {
+        super.onDeleted(context, appWidgetIds);
+//        context_main.stopService(intentService);
+        Toast.makeText(context,"onDeleted",Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onDisabled(Context context) {
         // Enter relevant functionality for when the last widget is disabled
-        Intent intent = new Intent(context_main,WidgetService.class);
-        context_main.stopService(intent);
+       //context_main.stopService(intentService);
+        Toast.makeText(context,"onDisabled",Toast.LENGTH_SHORT).show();
     }
 
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,

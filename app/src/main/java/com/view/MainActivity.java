@@ -47,17 +47,18 @@ public class MainActivity extends ActionBarActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
+        Intent SettingIntent = new Intent();
+        switch (id){
+            case  R.id.action_settings :
+                SettingIntent.setClass(MainActivity.this, SettingActivity.class);
+                startActivity(SettingIntent);
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            Intent SettingIntent = new Intent();
-            SettingIntent.setClass(MainActivity.this,SettingActivity.class);
-            startActivity(SettingIntent);
-            //setContentView(R.layout.setting);
-
-            return true;
+                break;
+            case R.id.action_widget :
+                SettingIntent.setClass(MainActivity.this,WidgetSettingActivity.class);
+                startActivity(SettingIntent);
+                break;
         }
-
         return super.onOptionsItemSelected(item);
     }
     @Override
@@ -96,7 +97,7 @@ public class MainActivity extends ActionBarActivity {
         int SmsLifeDay = ShowSms.getLifeYear()*365 + ShowSms.getLifeDay();
         SmsPorgressBar.setMax(SmsLifeDay);
         //計算剩餘天數
-        int RemainDay = SmsLifeDay-(int)ShowSms.getLeaveDay();
+        int RemainDay = SmsLifeDay-ShowSms.getLeaveDay();
         //設定進度
         SmsPorgressBar.setProgress(RemainDay);
         double RemainPercent = ((double)RemainDay/(double)SmsLifeDay)*100;

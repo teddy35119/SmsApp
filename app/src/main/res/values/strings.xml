@@ -28,5 +28,13 @@
     <string name="DateCount">退伍天數倒數：</string>
     <string name="appwidget_text">服役倒數計時</string>
     <string name="add_widget">Add widget</string>
+    <string name="title_activity_widget_setting">WidgetSettingActivity</string>
 
+    <!-- WidgetSetting_Layout -->
+    <string name="FontColor">字體顏色</string>
+    <string name="FontSize">字體大小</string>
+    <string name="Red">R</string>
+    <string name="Green">G</string>
+    <string name="Blue">B</string>
+    <string name="FontSizeShow">sp</string>
 </resources>

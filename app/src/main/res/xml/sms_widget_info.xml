@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
     android:minWidth="110dp" android:minHeight="40dp" android:updatePeriodMillis="0"
-    android:previewImage="@drawable/example_appwidget_preview"
+    android:previewImage="@drawable/ic_launcher"
     android:initialLayout="@layout/sms_widget" android:resizeMode="horizontal|vertical"
     android:widgetCategory="home_screen"
-    android:initialKeyguardLayout="@layout/sms_widget"></appwidget-provider>
+    android:initialKeyguardLayout="@layout/sms_widget" >
+    <!--android:configure="com.view.WidgetSettingActivity"-->
+
+
+</appwidget-provider>

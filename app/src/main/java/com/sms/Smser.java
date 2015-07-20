@@ -1,5 +1,6 @@
 package com.sms;
 
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import android.content.SharedPreferences;
@@ -80,12 +81,26 @@ public class Smser {
         return LifeDay;
     }
     //取得退伍天數
-    public  long  getLeaveDay(){
+    public  int  getLeaveDay(){
         Calendar Now = Calendar.getInstance();
+        //Calendar SetTime = Calendar.getInstance();
+        //SetTime.set(2015,6,12,24,0,0);
         long aDayInMilliSecond = 60 * 60 * 24 * 1000;     //一天的毫秒數
+        //long aHourInMilliSecond = 60 * 60 * 1000;
+        //long aMinInMilliSecond = 60 * 1000 ;
+        //long aSecInMilliSecond = 1000 ;
+
         LeaveDay = (SmsOutTime.getTimeInMillis() - Now.getTimeInMillis()) / aDayInMilliSecond;
-        return LeaveDay;
+        int temp =(int)LeaveDay;
+        //long LeaveHour = (SetTime.getTimeInMillis() - Now.getTimeInMillis()) / aHourInMilliSecond;
+        //long LeaveMin = (SetTime.getTimeInMillis() - Now.getTimeInMillis()) / aMinInMilliSecond / LeaveHour;
+        //long LeaveSec = (SetTime.getTimeInMillis() - Now.getTimeInMillis()) / aSecInMilliSecond / LeaveMin;
+
+        //String LeaveText = LeaveDay +"天"+ LeaveHour +"時"+ LeaveMin + "分" + LeaveSec+"秒";
+        //String LeaveText = ""+LeaveSec;
+        return temp;
     }
+
     //日期格式
     public static String dateFormat(int year,int monthOfYear,int dayOfMonth){
         return String.valueOf(year) + "-"
