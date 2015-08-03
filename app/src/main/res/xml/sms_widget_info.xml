@@ -4,8 +4,10 @@
     android:previewImage="@drawable/ic_launcher"
     android:initialLayout="@layout/sms_widget" android:resizeMode="horizontal|vertical"
     android:widgetCategory="home_screen"
-    android:initialKeyguardLayout="@layout/sms_widget" >
-    <!--android:configure="com.view.WidgetSettingActivity"-->
+    android:initialKeyguardLayout="@layout/sms_widget"
+    android:configure="com.view.WidgetSettingActivity"
+    >
+
 
 
 </appwidget-provider>

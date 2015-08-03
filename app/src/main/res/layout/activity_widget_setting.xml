@@ -1,0 +1,133 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.view.WidgetSettingActivity">
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/FontColor"
+        android:layout_marginTop="5dp"
+        android:padding="5dp"
+        android:layout_gravity="center"
+        android:id="@+id/ColorText" />
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TableRow>
+
+            <TextView
+                style="@style/SettingTextColor"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="@string/Red"
+                android:id="@+id/RedText"
+                android:textColor="#ff0000"/>
+
+            <SeekBar
+                style="@style/SettingSeekbar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/RedSeekBar"
+                android:layout_weight="1" />
+        </TableRow>
+        <TableRow>
+
+            <TextView
+                style="@style/SettingTextColor"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="@string/Green"
+                android:textColor="#00ff65"
+                android:id="@+id/GreenText"
+                />
+
+            <SeekBar
+                style="@style/SettingSeekbar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/GreenSeekBar"
+                android:layout_weight="1" />
+        </TableRow>
+        <TableRow>
+
+            <TextView
+                style="@style/SettingTextColor"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+
+                android:id="@+id/BlueText"
+                android:text="@string/Blue"
+                android:textColor="#0000ff"
+                />
+
+            <SeekBar
+                style="@style/SettingSeekbar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/BlueSeekBar"
+                android:layout_weight="1"/>
+        </TableRow>
+
+    </TableLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/FontSize"
+
+        android:layout_gravity="center"
+        android:id="@+id/SizeText" />
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                style="@style/SettingTextColor"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="@string/FontSizeShow"
+                android:id="@+id/ShowSizeText" />
+
+            <SeekBar
+                style="@style/SettingSeekbar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/SizeSeekBar"
+                android:layout_weight="1"/>
+
+        </TableRow>
+    </TableLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Large Text\n"
+            android:textSize="10sp"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:id="@+id/DisplayText" />
+
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/Save"
+                android:layout_alignParentBottom="true"
+                android:id="@+id/SaveButton" />
+
+    </RelativeLayout>
+
+
+</LinearLayout>

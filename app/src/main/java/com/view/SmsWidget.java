@@ -6,6 +6,9 @@ import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.util.TypedValue;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
@@ -30,11 +33,12 @@ public class SmsWidget extends AppWidgetProvider {
     private AppWidgetManager app_manager;
     private int[] appWidgetId;
     private Intent intentService;
-    public static String OnClickAction = "IntentToActivity";
+    private SharedPreferences WidgetPreferences;
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         // There may be multiple widgets active, so update all of them
         SmsPreference = new Preference(context);
+        WidgetPreferences = context.getSharedPreferences("SettingWidget",0);
         WidgetSms = SmsPreference.showWork();
         //LeaveDay = WidgetSms.getLeaveDay();
 
@@ -46,8 +50,8 @@ public class SmsWidget extends AppWidgetProvider {
         for (int i = 0; i <  appWidgetIds.length; i++) {
 
             //intent service
-            intentService = new Intent(context_main,WidgetService.class);
-            context_main.startService(intentService);
+
+            context_main.startService(new Intent(context_main,WidgetService.class));
 
             //點擊開啟主頁
 
@@ -56,6 +60,16 @@ public class SmsWidget extends AppWidgetProvider {
             RemoteViews views = new RemoteViews(context_main.getPackageName(), R.layout.sms_widget);
             views.setOnClickPendingIntent(R.id.appwidget_text, pendingIntent);
 
+
+            /*
+            int Red = WidgetPreferences.getInt("ColorRed",0);
+            int Green = WidgetPreferences.getInt("ColorGreen",0);
+            int Blue =  WidgetPreferences.getInt("ColorBlue", 0);
+            float TextSize = WidgetPreferences.getFloat("Size",12);
+
+            views.setTextColor(R.id.appwidget_text, Color.rgb(Red,Green,Blue));
+            views.setTextViewTextSize(R.id.appwidget_text, TypedValue.COMPLEX_UNIT_SP, TextSize);
+*/
             appWidgetManager.updateAppWidget(appWidgetIds[i], views);
 
             //updateAppWidget(context, appWidgetManager, appWidgetIds[i]);
@@ -66,28 +80,28 @@ public class SmsWidget extends AppWidgetProvider {
     @Override
     public void onReceive(Context context, Intent intent) {
         super.onReceive(context, intent);
-        Toast.makeText(context,"OnReceive",Toast.LENGTH_SHORT).show();
+        Toast.makeText(context,"OnReceiveSms",Toast.LENGTH_SHORT).show();
 
     }
 
     @Override
     public void onEnabled(Context context) {
         // Enter relevant functionality for when the first widget is created
-        Toast.makeText(context,"onEnabled",Toast.LENGTH_SHORT).show();
+        Toast.makeText(context,"onEnabledSms",Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onDeleted(Context context, int[] appWidgetIds) {
         super.onDeleted(context, appWidgetIds);
 //        context_main.stopService(intentService);
-        Toast.makeText(context,"onDeleted",Toast.LENGTH_SHORT).show();
+        Toast.makeText(context,"onDeletedSms",Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onDisabled(Context context) {
         // Enter relevant functionality for when the last widget is disabled
        //context_main.stopService(intentService);
-        Toast.makeText(context,"onDisabled",Toast.LENGTH_SHORT).show();
+        Toast.makeText(context,"onDisabledSms",Toast.LENGTH_SHORT).show();
     }
 
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,

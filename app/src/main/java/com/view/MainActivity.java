@@ -30,6 +30,7 @@ public class MainActivity extends ActionBarActivity {
         showInitCompoment();
         SmsPreference = new Preference(MainActivity.this);
         mainWork();
+        Toast.makeText(this,"OnCreate8",Toast.LENGTH_SHORT).show();
 
     }
 
