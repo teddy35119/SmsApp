@@ -61,18 +61,10 @@ public class SmsWidget extends AppWidgetProvider {
             views.setOnClickPendingIntent(R.id.appwidget_text, pendingIntent);
 
 
-            /*
-            int Red = WidgetPreferences.getInt("ColorRed",0);
-            int Green = WidgetPreferences.getInt("ColorGreen",0);
-            int Blue =  WidgetPreferences.getInt("ColorBlue", 0);
-            float TextSize = WidgetPreferences.getFloat("Size",12);
 
-            views.setTextColor(R.id.appwidget_text, Color.rgb(Red,Green,Blue));
-            views.setTextViewTextSize(R.id.appwidget_text, TypedValue.COMPLEX_UNIT_SP, TextSize);
-*/
             appWidgetManager.updateAppWidget(appWidgetIds[i], views);
+            Toast.makeText(context,"OnUpdate",Toast.LENGTH_SHORT).show();
 
-            //updateAppWidget(context, appWidgetManager, appWidgetIds[i]);
         }
 
     }
