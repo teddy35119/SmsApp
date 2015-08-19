@@ -1,10 +1,22 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools" tools:context=".MainActivity">
+    <item
+        android:id="@+id/menu_item_share"
+        app:showAsAction="always"
+        android:title="Share"
+        android:icon="@drawable/ic_action_share"
+        app:icon="@drawable/ic_action_share"
+        app:actionProviderClass="android.support.v7.widget.ShareActionProvider"
+
+        />
     <item android:id="@+id/action_widget"
         android:icon="@drawable/ic_action_clanendar"
         android:title="Widget"
-        app:showAsAction="ifRoom"/>
-    <item android:id="@+id/action_settings" android:title="@string/action_settings"
-        android:icon="@drawable/ic_action_setting" app:showAsAction="ifRoom" />
+        app:showAsAction="always"/>
+    <item android:id="@+id/action_settings"
+        android:title="@string/action_settings"
+        android:icon="@drawable/ic_action_setting"
+        app:showAsAction="always" />
+
 </menu>
