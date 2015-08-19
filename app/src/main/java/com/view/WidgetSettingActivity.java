@@ -80,7 +80,7 @@ public class WidgetSettingActivity extends ActionBarActivity {
     View.OnClickListener SaveOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            //±NÃC¦â¤Î¦r§Î¥á¤Jprefs
+            //å°‡é¡è‰²åŠå­—å½¢ä¸Ÿå…¥prefs
             prefs.edit().putFloat("Size", TextSize)
                         .putInt("ColorRed", RedColor)
                         .putInt("ColorGreen", GreenColor)
@@ -89,16 +89,16 @@ public class WidgetSettingActivity extends ActionBarActivity {
 
             AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(mContext);
             RemoteViews viewAppWidget = new RemoteViews(getPackageName(),R.layout.sms_widget);
-           //ÂIÀ»¶}±Ò¥D­¶
+           //é»æ“Šé–‹å•Ÿä¸»é 
             Intent IntentActivity = new Intent(mContext,MainActivity.class);
             PendingIntent pendingIntent = PendingIntent.getActivity(mContext, 0, IntentActivity, 0);
             viewAppWidget.setOnClickPendingIntent(R.id.appwidget_text, pendingIntent);
 
-            //³]©wÃC¦â¤Î¦rÅé¤j¤p
+            //è¨­å®šé¡è‰²åŠå­—é«”å¤§å°
             viewAppWidget.setTextColor(R.id.appwidget_text,Color.rgb(RedColor, GreenColor, BlueColor));
             viewAppWidget.setTextViewTextSize(R.id.appwidget_text, TypedValue.COMPLEX_UNIT_SP, TextSize);
 
-            //§ó·swidget
+            //æ›´æ–°widget
             appWidgetManager.updateAppWidget(new ComponentName(mContext.getPackageName(), SmsWidget.class.getName()), viewAppWidget);
 
             Toast.makeText(mContext,"update widget",Toast.LENGTH_SHORT).show();
@@ -139,7 +139,7 @@ public class WidgetSettingActivity extends ActionBarActivity {
 
         }
     }
-    //Âà´« px to sp
+    //è½‰æ› px to sp
     public static float pixelsToSp(Context context, float px) {
         float scaledDensity = context.getResources().getDisplayMetrics().scaledDensity;
         return px/scaledDensity;

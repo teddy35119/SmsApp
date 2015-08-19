@@ -37,7 +37,11 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/sms_widget_info" />
         </receiver>
-
+        <receiver android:name="com.view.AlarmReceiver">
+                <intent-filter>
+                    <action android:name="Notification" />
+                </intent-filter>
+        </receiver>
         <service
             android:name="com.view.WidgetService"
             android:enabled="true"
