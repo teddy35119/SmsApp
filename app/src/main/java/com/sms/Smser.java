@@ -3,6 +3,8 @@ package com.sms;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.TimeZone;
+
 import android.content.SharedPreferences;
 /**
  * Created by teddy on 2014/12/31.
@@ -31,7 +33,7 @@ public class Smser {
         InYeay = Year;
         InMonth = Month;
         InDay = Day;
-        SmsInTime.set(InYeay,InMonth,InDay,0,0,0);
+        SmsInTime.set(InYeay,InMonth,InDay,24,0,0);
     }
     public int getSmsYear(){
         return InYeay;
@@ -101,6 +103,17 @@ public class Smser {
         return temp;
     }
 
+    public long getLeaveMillis(){
+        Calendar Now = Calendar.getInstance();
+
+        long Temp =  (SmsOutTime.getTimeInMillis() - Now.getTimeInMillis()) - TimeZone.getDefault().getRawOffset();
+        if (Temp <= 0){
+            return 0;
+        }else {
+            return Temp;
+        }
+
+    }
     //日期格式
     public static String dateFormat(int year,int monthOfYear,int dayOfMonth){
         return String.valueOf(year) + "-"

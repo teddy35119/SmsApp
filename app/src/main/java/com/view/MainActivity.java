@@ -1,11 +1,11 @@
 package com.view;
 
 
-import android.app.Activity;
+
 import android.content.Intent;
 
 import android.support.v4.view.MenuItemCompat;
-import android.support.v7.app.ActionBar;
+
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 
@@ -34,7 +34,7 @@ public class MainActivity extends ActionBarActivity {
         showInitCompoment();
         SmsPreference = new Preference(MainActivity.this);
         mainWork();
-        Toast.makeText(this,"OnCreate5",Toast.LENGTH_SHORT).show();
+        Toast.makeText(this,"OnCreate",Toast.LENGTH_SHORT).show();
 
     }
 
@@ -47,9 +47,11 @@ public class MainActivity extends ActionBarActivity {
         // Set up ShareActionProvider's default share intent
         MenuItem shareItem = menu.findItem(R.id.menu_item_share);
 
-        mShareActionProvider =(ShareActionProvider) MenuItemCompat.getActionProvider(shareItem);
+        mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(shareItem);
+        //mShareActionProvider.setShareHistoryFileName(null);
 
         setShareIntent(SetIntent());
+
         return true;
     }
 
@@ -62,8 +64,18 @@ public class MainActivity extends ActionBarActivity {
     }
 
     private void setShareIntent(Intent shareIntent) {
-        if (mShareActionProvider != null) {
-            mShareActionProvider.setShareIntent(shareIntent);
+      if (mShareActionProvider != null) {
+          mShareActionProvider.setOnShareTargetSelectedListener(new ShareActionProvider.OnShareTargetSelectedListener() {
+              @Override
+              public boolean onShareTargetSelected(ShareActionProvider shareActionProvider, Intent intent) {
+                  //startActivity(intent);
+                  mShareActionProvider.setShareHistoryFileName(null);
+                  return false;
+              }
+          });
+
+          mShareActionProvider.setShareIntent(shareIntent);
+
         }else{
             Log.v("test","isNull");
         }
@@ -89,13 +101,7 @@ public class MainActivity extends ActionBarActivity {
                 startActivity(SettingIntent);
                 break;
             case R.id.menu_item_share :
-                /*Toast.makeText(this,"InShare",Toast.LENGTH_SHORT).show();
-                Intent sendIntent = new Intent();
-                sendIntent.setAction(Intent.ACTION_SEND);
-                sendIntent.putExtra(Intent.EXTRA_TEXT, "我剩下"+LeaveDay);
-                sendIntent.setType("text/plain");
-                sendIntent.setPackage("jp.naver.line.android");
-                startActivity(sendIntent);*/
+                mShareActionProvider.setShareHistoryFileName(null);
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -105,6 +111,9 @@ public class MainActivity extends ActionBarActivity {
         super.onResume();
         mainWork();
         //Toast.makeText(MainActivity.this,"Resume",Toast.LENGTH_LONG).show();
+
+
+
     }
     @Override
     protected void onPause(){

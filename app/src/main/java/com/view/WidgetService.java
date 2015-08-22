@@ -77,6 +77,7 @@ public class WidgetService extends Service {
         WidgetPreferences = this.getSharedPreferences("SettingWidget", 0);
         WidgetSms = SmsPreference.showWork();
         LeaveDay = WidgetSms.getLeaveDay();
+        Date dt = new Date(WidgetSms.getLeaveMillis());
 
         return START_STICKY;
     }
@@ -93,7 +94,7 @@ public class WidgetService extends Service {
     {
         Calendar cal = Calendar.getInstance();
         //設定啟動時間
-        cal.set(Calendar.HOUR_OF_DAY,1);
+        cal.set(Calendar.HOUR_OF_DAY,8);
         cal.set(Calendar.MINUTE,0);
         cal.set(Calendar.SECOND,0);
 
@@ -113,9 +114,9 @@ public class WidgetService extends Service {
 
 
         //更新Widget
-        CharSequence widgetText = this.getString(R.string.SmsOutDay)+LeaveDay;
+        CharSequence widgetText = this.getString(R.string.SmsOutDay)+ "\n" +LeaveDay + this.getString(R.string.Date);
         view = new RemoteViews(getPackageName(), R.layout.sms_widget);
-        view.setTextViewText(R.id.appwidget_text, new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(new Date()) + "\n" + widgetText);
+        view.setTextViewText(R.id.appwidget_text, widgetText +"\n"+ new SimpleDateFormat("HH:mm:ss").format(new Date(WidgetSms.getLeaveMillis())));
 
         int Red = WidgetPreferences.getInt("ColorRed",0);
         int Green = WidgetPreferences.getInt("ColorGreen",0);

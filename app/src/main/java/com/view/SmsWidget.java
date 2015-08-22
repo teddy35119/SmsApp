@@ -65,7 +65,7 @@ public class SmsWidget extends AppWidgetProvider {
 
 
             appWidgetManager.updateAppWidget(appWidgetIds[i], views);
-            Toast.makeText(context,"OnUpdateWidget",Toast.LENGTH_SHORT).show();
+            //Toast.makeText(context,"OnUpdateWidget",Toast.LENGTH_SHORT).show();
 
         }
 
@@ -74,7 +74,7 @@ public class SmsWidget extends AppWidgetProvider {
     @Override
     public void onReceive(Context context, Intent intent) {
         super.onReceive(context, intent);
-        Toast.makeText(context,"OnReceiveWidget",Toast.LENGTH_SHORT).show();
+        //Toast.makeText(context,"OnReceiveWidget",Toast.LENGTH_SHORT).show();
 
     }
 

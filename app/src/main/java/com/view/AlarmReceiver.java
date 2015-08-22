@@ -33,41 +33,48 @@ public class AlarmReceiver extends BroadcastReceiver {
             Toast.makeText(context, new SimpleDateFormat("HH:mm:ss").format(new Date()), Toast.LENGTH_LONG).show();
 
             switch (LeaveDay){
-                case 69:
-                    Notification(LeaveDay,"恭喜你剩下：");
-                    break;
-                case 60:
-                    Notification(LeaveDay,"你只剩2個月了!!");
-                    break;
+
                 case 57:
-                    Notification(LeaveDay,"測試一下");
+                    Notification(LeaveDay,context.getString(R.string.ForTest));
                     break;
                 case 56:
-                    Notification(LeaveDay,"測試一下");
+                    Notification(LeaveDay,context.getString(R.string.ForTest));
                     break;
                 case 55:
-                    Notification(LeaveDay,"測試一下");
+                    Notification(LeaveDay,context.getString(R.string.ForTest));
+                    break;
+                case 54:
+                    Notification(LeaveDay,context.getString(R.string.ForTest));
+                    break;
+                case 53:
+                    Notification(LeaveDay,context.getString(R.string.ForTest));
+                    break;
+                case 52:
+                    Notification(LeaveDay,context.getString(R.string.ForTest));
+                    break;
+                case 51:
+                    Notification(LeaveDay,context.getString(R.string.ForTest));
                     break;
                 case 50:
-                    Notification(LeaveDay,"不到2個月，撐下去吧!!");
+                    Notification(LeaveDay,context.getString(R.string.For50));
                     break;
                 case 40:
-                    Notification(LeaveDay,"邁入40，加油!!");
+                    Notification(LeaveDay,context.getString(R.string.For40));
                     break;
                 case 30:
-                    Notification(LeaveDay,"你只剩1個月了!!");
+                    Notification(LeaveDay,context.getString(R.string.For30));
                     break;
                 case 15:
-                    Notification(LeaveDay,"你只剩半個月了，準備離開!");
+                    Notification(LeaveDay,context.getString(R.string.For15));
                     break;
                 case 10:
-                    Notification(LeaveDay,"終於要最後倒數");
+                    Notification(LeaveDay,context.getString(R.string.For10));
                     break;
                 case 5:
-                    Notification(LeaveDay,"一個禮拜不到囉!!");
+                    Notification(LeaveDay,context.getString(R.string.For5));
                     break;
                 case 1:
-                    Notification(LeaveDay,"恭喜!!!!! 要退伍了");
+                    Notification(LeaveDay,context.getString(R.string.For1));
                     break;
 
             }
@@ -89,9 +96,9 @@ public class AlarmReceiver extends BroadcastReceiver {
 
         NotificationBuilder
                 .setSmallIcon(R.drawable.ic_action_clanendar)
-                .setContentTitle("剩餘退伍天數"+LeaveDay)
-                .setContentText( CustomString +"\n"+ LeaveDay+"天後退伍")
-                .setContentInfo("資訊")
+                .setContentTitle(mContext.getString(R.string.NotiLeaveDay)+LeaveDay)
+                .setContentText( CustomString +"\n"+ LeaveDay+mContext.getString(R.string.NotiWord))
+                .setContentInfo(mContext.getString(R.string.NotiInform))
                 .setLargeIcon(BitmapFactory.decodeResource(mContext.getResources(), R.drawable.ic_launcher))
                 .setVibrate(VibratePattern)
                 .setContentIntent(appIntent)

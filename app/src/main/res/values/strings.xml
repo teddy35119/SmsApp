@@ -8,7 +8,7 @@
     <string name="TimeChoose">入伍日選擇</string>
     <string name="SmsInTime">入伍日</string>
     <string name="SmsOutTime">退伍日</string>
-    <string name="SmsOutDay">退伍天數：</string>
+    <string name="SmsOutDay">退伍倒數</string>
     <string name="NormalSms">一般替代役</string>
     <string name="BodySms">替代役體位</string>
     <string name="ResearchSms">研發替代役</string>
@@ -21,6 +21,7 @@
     <string name="ReduceDay">減免天數：</string>
     <string name="Year">年</string>
     <string name="Day">日</string>
+    <string name="Date">天</string>
 
     <!-- MainActivity_Layout -->
     <string name="SmsInDate">入伍日期：</string>
@@ -37,4 +38,18 @@
     <string name="Green">G</string>
     <string name="Blue">B</string>
     <string name="FontSizeShow">sp</string>
+
+    <!--AlarmReceiver -->
+    <string name="For50">不到2個月，撐下去吧!!</string>
+    <string name="For40">邁入40，加油!!</string>
+    <string name="For30">你只剩1個月了!!</string>
+    <string name="For15">你只剩半個月了，準備離開!</string>
+    <string name="For10"> 終於要最後倒數</string>
+    <string name="For5"> 一個禮拜不到囉!!</string>
+    <string name="For1">  恭喜!!!!! 要退伍了</string>
+    <string name="ForTest">測試一下</string>
+    <string name="NotiLeaveDay">剩餘退伍天數</string>
+    <string name="NotiWord">天後退伍</string>
+    <string name="NotiInform">通知</string>
+
 </resources>
