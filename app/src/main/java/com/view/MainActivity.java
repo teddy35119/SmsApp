@@ -4,6 +4,10 @@ package com.view;
 
 import android.content.Intent;
 
+import android.graphics.Bitmap;
+import android.graphics.Rect;
+import android.net.Uri;
+import android.support.v4.content.FileProvider;
 import android.support.v4.view.MenuItemCompat;
 
 import android.support.v7.app.ActionBarActivity;
@@ -13,6 +17,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import android.view.View;
 import android.widget.ProgressBar;
 import android.support.v7.widget.ShareActionProvider;
 import android.widget.TextView;
@@ -22,6 +27,10 @@ import com.example.teddy.smsapp.R;
 import com.sms.Preference;
 import com.sms.Smser;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Calendar;
 
 
@@ -34,7 +43,7 @@ public class MainActivity extends ActionBarActivity {
         showInitCompoment();
         SmsPreference = new Preference(MainActivity.this);
         mainWork();
-        Toast.makeText(this,"OnCreate",Toast.LENGTH_SHORT).show();
+        Toast.makeText(this,"OnCreate2",Toast.LENGTH_SHORT).show();
 
     }
 
@@ -44,42 +53,69 @@ public class MainActivity extends ActionBarActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
 
-        // Set up ShareActionProvider's default share intent
-        MenuItem shareItem = menu.findItem(R.id.menu_item_share);
-
-        mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(shareItem);
-        //mShareActionProvider.setShareHistoryFileName(null);
-
-        setShareIntent(SetIntent());
-
         return true;
     }
 
-    private Intent SetIntent(){
+    private Intent setIntent(){
+
+        //取得螢幕截圖
+        getScreenShot();
+
+        File imagePath = new File(this.getCacheDir(), "images");
+        File newFile = new File(imagePath, "image.png");
+        Uri contentUri = FileProvider.getUriForFile(this, "com.example.sms.fileprovider", newFile);
+
         Intent sendIntent = new Intent();
-        sendIntent.setAction(Intent.ACTION_SEND);
-        sendIntent.putExtra(Intent.EXTRA_TEXT, "我剩下" + LeaveDay +"天");
-        sendIntent.setType("text/plain");
-        return sendIntent;
-    }
+        if(contentUri != null){
 
-    private void setShareIntent(Intent shareIntent) {
-      if (mShareActionProvider != null) {
-          mShareActionProvider.setOnShareTargetSelectedListener(new ShareActionProvider.OnShareTargetSelectedListener() {
-              @Override
-              public boolean onShareTargetSelected(ShareActionProvider shareActionProvider, Intent intent) {
-                  //startActivity(intent);
-                  mShareActionProvider.setShareHistoryFileName(null);
-                  return false;
-              }
-          });
+            sendIntent.setAction(Intent.ACTION_SEND);
+            sendIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION); // temp permission for receiving app to read this file
+            sendIntent.setDataAndType(contentUri, getContentResolver().getType(contentUri));
+            sendIntent.putExtra(Intent.EXTRA_STREAM, contentUri);
 
-          mShareActionProvider.setShareIntent(shareIntent);
-
-        }else{
-            Log.v("test","isNull");
         }
+        return sendIntent;
+
     }
+    private void getScreenShot()
+    {
+        //藉由View來Cache全螢幕畫面後放入Bitmap
+        View mView = getWindow().getDecorView();
+        mView.setDrawingCacheEnabled(true);
+        mView.buildDrawingCache();
+        Bitmap mFullBitmap = mView.getDrawingCache();
+
+        //取得系統狀態列高度
+        Rect mRect = new Rect();
+        getWindow().getDecorView().getWindowVisibleDisplayFrame(mRect);
+        int mStatusBarHeight = mRect.top;
+
+        //取得手機螢幕長寬尺寸
+        int mPhoneWidth = getWindowManager().getDefaultDisplay().getWidth();
+        int mPhoneHeight = getWindowManager().getDefaultDisplay().getHeight();
+
+        //將狀態列的部分移除並建立新的Bitmap
+        Bitmap mBitmap = Bitmap.createBitmap(mFullBitmap, 0, mStatusBarHeight, mPhoneWidth, mPhoneHeight - mStatusBarHeight);
+        //將Cache的畫面清除
+        mView.destroyDrawingCache();
+
+        //將圖片存入暫存區
+        try {
+
+            File cachePath = new File(this.getCacheDir(), "images");
+            cachePath.mkdirs(); // don't forget to make the directory
+            FileOutputStream stream = new FileOutputStream(cachePath + "/image.png"); // overwrites this image every time
+            mBitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+            stream.close();
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
 
 
     @Override
@@ -101,7 +137,8 @@ public class MainActivity extends ActionBarActivity {
                 startActivity(SettingIntent);
                 break;
             case R.id.menu_item_share :
-                mShareActionProvider.setShareHistoryFileName(null);
+                //Toast.makeText(this,"click",Toast.LENGTH_SHORT).show();
+                startActivity(Intent.createChooser(setIntent(),"分享"));
                 break;
         }
         return super.onOptionsItemSelected(item);
